@@ -1,10 +1,11 @@
 name: "webeasy"
 services:
-
   postgresql:
     image: postgres
     environment:
       POSTGRES_PASSWORD: root
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       default:
         ipv4_address: 172.0.0.2
@@ -21,14 +22,12 @@ services:
   app:
     image: kore/kore:git-master-arm64
     working_dir: /app
-    environment:
-      PG_IPADDR: 172.0.0.2
     networks:
       - default
     ports:
       - 8888:8888
     volumes:
-      - ${PWD}/app:/app
+      - ./app:/app
     command: -c conf/app.conf
     depends_on:
       - postgresql
