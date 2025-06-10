@@ -1,3 +1,4 @@
+-- envsubst < class.sql > init.sql
 \c postgres;
 
 CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASS}';
@@ -24,7 +25,7 @@ CREATE TABLE users.base (
     username VARCHAR(100) UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    role_id INT REFERENCES users.roles(id),
+    -- role_id INT REFERENCES users.roles(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -43,3 +44,19 @@ CREATE TABLE users.base (
 -- ALTER TABLE users OWNER TO ${DB_USER};
 
 -- GRANT ALL PRIVILEGES ON TABLE ${DB_NAME}.users TO ${DB_USER};
+
+CREATE TABLE users.jwt (
+    id SERIAL PRIMARY KEY,               -- 自增主键
+    user_id INT REFERENCES users.base(id) ON DELETE CASCADE,  -- 关联用户（如果需要）
+    token TEXT UNIQUE NOT NULL,          -- Token 字符串（唯一）
+    token_type VARCHAR(50) DEFAULT 'access_token',     -- Token 类型（如 access_token, refresh_token）
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 创建时间
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL       -- 过期时间
+    -- is_revoked BOOLEAN DEFAULT FALSE     -- 是否被撤销
+);
+
+-- 为 token 查询加快速度
+CREATE INDEX idx_token_lookup ON users.jwt(token);
+CREATE INDEX idx_expires_at ON users.jwt(expires_at);
+
