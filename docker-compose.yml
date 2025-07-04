@@ -25,9 +25,10 @@ services:
     networks:
       - default
     ports:
-      - 8888:8888
+      - 80:8888
+      - 443:8883
     volumes:
-      - ./:/webeasy
+      - .:/webeasy
     command: kore -c conf/app.conf
     depends_on:
       - postgresql

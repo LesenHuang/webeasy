@@ -3,6 +3,8 @@
 .flavor
 .objs
 kore.pid
+account-key.pem
 webeasy.so
 assets.h
 cert
+certificates
