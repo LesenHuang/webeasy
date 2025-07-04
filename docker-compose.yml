@@ -20,15 +20,14 @@ services:
       - postgresql
 
   app:
-    #image: kore/kore:git-master-arm64
     image: kore:myself
-    working_dir: /app
+    working_dir: /webeasy
     networks:
       - default
     ports:
       - 8888:8888
     volumes:
-      - ./app:/app
+      - ./:/webeasy
     command: kore -c conf/app.conf
     depends_on:
       - postgresql

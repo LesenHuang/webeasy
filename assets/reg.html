@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script>
+        function validateUsername() {
+            const username = document.getElementById("username").value;
+            const usernameCriteria = document.getElementById("username-criteria");
+            const usernamePattern = /^[A-Za-z0-9][A-Za-z0-9 ]{1,15}[A-Za-z0-9]$/;
+            
+            if (!usernamePattern.test(username)) {
+                usernameCriteria.innerHTML = "<p style='color: red;'>❌ 用户名必须3-17个字符，不能以空格开头或结尾，仅允许空格、字母和数字</p>";
+                return false;
+            } else {
+                usernameCriteria.innerHTML = "<p style='color: green;'>✅ 用户名格式正确</p>";
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+            const criteria = document.getElementById("password-criteria");
+            const confirmMessage = document.getElementById("confirm-message");
+            let message = "";
+            let isValid = true;
+
+            if (password.length < 8) {
+                message += "<p>❌ 至少8个字符</p>";
+                isValid = false;
+            } else {
+                message += "<p>✅ 至少8个字符</p>";
+            }
+            if (!/[A-Z]/.test(password)) {
+                message += "<p>❌ 至少包含一个大写字母</p>";
+                isValid = false;
+            } else {
+                message += "<p>✅ 至少包含一个大写字母</p>";
+            }
+            if (!/[a-z]/.test(password)) {
+                message += "<p>❌ 至少包含一个小写字母</p>";
+                isValid = false;
+            } else {
+                message += "<p>✅ 至少包含一个小写字母</p>";
+            }
+            if (!/[0-9]/.test(password)) {
+                message += "<p>❌ 至少包含一个数字</p>";
+                isValid = false;
+            } else {
+                message += "<p>✅ 至少包含一个数字</p>";
+            }
+            if (!/[!@#$%^&*]/.test(password)) {
+                message += "<p>❌ 至少包含一个特殊字符 (!@#$%^&*)</p>";
+                isValid = false;
+            } else {
+                message += "<p>✅ 至少包含一个特殊字符 (!@#$%^&*)</p>";
+            }
+            
+            criteria.innerHTML = message;
+            
+            if (confirmPassword !== password) {
+                confirmMessage.innerHTML = "<p style='color: red;'>❌ 密码不匹配</p>";
+                isValid = false;
+            } else {
+                confirmMessage.innerHTML = "<p style='color: green;'>✅ 密码匹配</p>";
+            }
+            
+            return isValid;
+        }
+        
+        function validateForm(event) {
+            if (!validateUsername() || !validatePassword()) {
+                event.preventDefault(); // 阻止表单提交
+                alert("请确保用户名和密码符合要求！");
+            }
+        }
+    </script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h2 class="title has-text-centered">注册</h2>
+                    <form action="/register" method="POST" onsubmit="validateForm(event)">
+                        <div class="field">
+                            <label class="label">用户名</label>
+                            <div class="control">
+                                <input class="input" type="text" id="username" name="username" placeholder="请输入用户名" required oninput="validateUsername()">
+                            </div>
+                            <div id="username-criteria" class="content mt-2"></div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">电子邮件</label>
+                            <div class="control">
+                                <input class="input" type="email" name="email" placeholder="请输入电子邮件" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">密码</label>
+                            <div class="control">
+                                <input class="input" type="password" id="password" name="password" placeholder="请输入密码" required oninput="validatePassword()">
+                            </div>
+                            <div id="password-criteria" class="content mt-2"></div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">确认密码</label>
+                            <div class="control">
+                                <input class="input" type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码" required oninput="validatePassword()">
+                            </div>
+                            <div id="confirm-message" class="content mt-2"></div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">注册</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="has-text-centered mt-4">
+                        <a href="/login" class="button is-light">已有账号？登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

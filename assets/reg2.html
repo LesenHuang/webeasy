@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册成功</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script>
+        let countdown = 5;
+        function updateCountdown() {
+            document.getElementById("auto-login").textContent = `自动登录 (${countdown}s)`;
+            if (countdown === 0) {
+                window.location.href = "/login";
+            } else {
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+        window.onload = function() {
+            setTimeout(updateCountdown, 1000);
+        }
+    </script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half has-text-centered">
+                    <h2 class="title">注册成功！</h2>
+                    <p>欢迎, <span id="username">$username$</span>！</p>
+                    <br>
+                    <button class="button is-primary" onclick="window.location.href='/login'">登录</button>
+                    <button id="auto-login" class="button is-link" onclick="window.location.href='/login'">自动登录 (5s)</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // 获取URL参数中的用户名
+    </script>
+</body>
+</html>

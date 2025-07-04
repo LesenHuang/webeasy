@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h2 class="title has-text-centered">登录</h2>
+                    <form action="/login" method="POST">
+                        <input type="hidden" name="referer" value="$referer$" id="referer">
+                        <div class="field">
+                            <label class="label">用户名</label>
+                            <div class="control">
+                                <input class="input" type="text" name="username" placeholder="请输入用户名" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <label class="label">密码</label>
+                            <div class="control">
+                                <input class="input" type="password" name="password" placeholder="请输入密码" required>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">登录</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="has-text-centered mt-4">
+                        <a href="/register" class="button is-light">注册</a>
+                        <a href="/forgot-password" class="button is-light">忘记密码？</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
