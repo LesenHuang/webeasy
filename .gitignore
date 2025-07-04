@@ -1,0 +1,8 @@
+*.o
+.DS_Store
+.flavor
+.objs
+kore.pid
+webeasy.so
+assets.h
+cert
