@@ -150,7 +150,7 @@ login(struct http_request *req)
 
 		if (!(http_argument_get_string(req, "username", &name)
 			&& http_argument_get_string(req, "password", &pass))) {
-			http_response(req, 400, RESP_STR("username or password error"));
+			http_response(req, 400, TEXTSL("username or password error"));
 		};
 
 		if (!kore_pgsql_setup(&sql, "db", KORE_PGSQL_SYNC)) {
@@ -177,7 +177,7 @@ login(struct http_request *req)
 		if (!kore_pgsql_ntuples(&sql)) {
 			kore_log(LOG_INFO, "user not exist or password error");
 			kore_pgsql_logerror(&sql);
-			http_response(req, 400, RESP_STR("user not exist or password error"));
+			http_response(req, 400, TEXTSL("user not exist or password error"));
 			goto out;
 
 		}
@@ -235,7 +235,7 @@ login(struct http_request *req)
 			kore_log(LOG_INFO, "%s", loc);
 		}
 
-		http_response(req, HTTP_STATUS_MOVED_PERMANENTLY, RESP_STR("Redirecting to /"));
+		http_response(req, HTTP_STATUS_MOVED_PERMANENTLY, TEXTSL("Redirecting to /"));
 		goto out;
 	}
 
@@ -272,7 +272,7 @@ regist(struct http_request *req)
 			http_argument_get_string(req, "password", &pass) &&
 			http_argument_get_string(req, "email", &email))) {
 
-			http_response(req, 400, RESP_STR("params error"));
+			http_response(req, 400, TEXTSL("params error"));
 			goto out;
 
 		}
@@ -287,7 +287,7 @@ regist(struct http_request *req)
 				KORE_PGSQL_PARAM_TEXT(base64),
 			KORE_PGSQL_PARAM_TEXT(email))) {
 
-			http_response(req, 400, RESP_STR("username or email exist"));
+			http_response(req, 400, TEXTSL("username or email exist"));
 			kore_free(base64);
 			kore_pgsql_logerror(&sql);
 			goto out;

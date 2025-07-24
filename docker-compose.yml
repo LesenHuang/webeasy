@@ -29,7 +29,7 @@ services:
       - 443:8883
     volumes:
       - .:/webeasy
-    command: kore -c conf/app.conf
+    command: kore -c conf/webeasy.conf
     depends_on:
       - postgresql
 

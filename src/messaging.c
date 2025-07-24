@@ -5,6 +5,7 @@
 #define WS_MESSAGE_ID	KORE_MSG_APP_BASE + 1
 
 int	init(int);
+int     websocket(struct http_request *req);
 void	ws_message(struct kore_msg *, const void *);
 
 int
