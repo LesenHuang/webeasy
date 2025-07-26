@@ -5,6 +5,7 @@
 kore.pid
 account-key.pem
 webeasy.so
+webeasy
 assets.h
 cert
 certificates

@@ -140,8 +140,8 @@ login(struct http_request *req)
 {
 	size_t			len;
 	u_int8_t		*d;
-	char			*name, *pass, *base64;
-	const char		*loc;
+	char			*name, *pass, *base64, *tmp;
+	const char              *loc;
 	struct kore_buf		buf;
 	struct kore_pgsql	sql;
 	struct http_cookie	*cookie;
@@ -226,10 +226,11 @@ login(struct http_request *req)
 
 		jwt_free(jwt);
 
-		if (!kore_pgsql_query_params(&sql,
-				"insert into users.jwt (user_id, token, expires_at) values ($1, $2, $3)",
-				0, 3, KORE_PGSQL_PARAM_TEXT(user_ids), KORE_PGSQL_PARAM_TEXT(token),
-			KORE_PGSQL_PARAM_TEXT(kore_time_to_date(time(NULL) + EXPIRES_AT)))) {
+		if (!kore_pgsql_query_params(&sql
+                            , "insert into users.jwt (user_id, token, expires_at) values ($1, $2, $3)", 0, 3
+                            , KORE_PGSQL_PARAM_TEXT(user_ids)
+                            , KORE_PGSQL_PARAM_TEXT(token)
+                            , KORE_PGSQL_PARAM_TEXT(kore_time_to_date(time(NULL) + EXPIRES_AT)))) {
 
 			kore_log(LOG_INFO, "insert token error");
 			kore_pgsql_logerror(&sql);
@@ -243,11 +244,12 @@ login(struct http_request *req)
 
 		http_response_header(req, "location", "/");
 
-		if (http_argument_get_string(req, "referer", &loc)
-			&& strcmp(loc, "/register")
-			&& strcmp(loc, "/login")) {
+		if (http_argument_get_string(req, "referer", &tmp)
+                    && (loc = tmp) 
+                    && strcmp(loc, "/register")
+                    && strcmp(loc, "/login")) {
 
-			http_response_header(req, "location", loc);
+		        http_response_header(req, "location", loc);
 			kore_log(LOG_INFO, "%s", loc);
 		}
 

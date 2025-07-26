@@ -28,10 +28,10 @@ int
 init(int state)
 {
 
-	kore_pgsql_register("db", "hostaddr=172.0.0.2 dbname=webeasy user=webeasy password=root");
 	if (state == KORE_MODULE_UNLOAD)
 		return (KORE_RESULT_OK);
 
+	kore_pgsql_register("db", "hostaddr=172.0.0.2 dbname=webeasy user=webeasy password=root");
 	kore_msg_register(WS_MESSAGE_ID, ws_message);
 	return (KORE_RESULT_OK);
 }
